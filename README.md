@@ -55,5 +55,9 @@
   - Código-fonte
   
     - [https://github.com/devfullcycle/FC3-admin-catalogo-de-videos-java](https://github.com/devfullcycle/FC3-admin-catalogo-de-videos-java)
+	
+	- [https://github.com/marciafc/FC3-admin-catalogo-de-videos-java](https://github.com/marciafc/FC3-admin-catalogo-de-videos-java)
 	  
-   
+## Entidade categorias
+
+  - [Notas](entidade-categorias/README.MD]
