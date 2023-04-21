@@ -60,4 +60,4 @@
 	  
 ## Entidade categorias
 
-  - [Notas](entidade-categorias/README.MD]
+  - [Notas](entidade-categorias/README.MD)
