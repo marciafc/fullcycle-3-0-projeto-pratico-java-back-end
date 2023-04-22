@@ -59,7 +59,7 @@
   
       - ```ValueObject``` 
 
-      - ```Identifier extends ValueObject**
+      - ```Identifier extends ValueObject```
         - Objeto de valor é **definido pelos seus atributos**
 		
       - ```Entity<ID extends Identifier>```
@@ -98,7 +98,11 @@
   
     - CategoryValidator extends Validator	
 	
-  - [domain] com.fullcycle.admin.catalogo.domain.validation.**Validator** 	
+	- CategoryValidator -> validador externo
+	
+  - [domain] com.fullcycle.admin.catalogo.domain.validation.**Validator** 
+    - Validator -> classe pai dos validadores
+    - private final ValidationHandler handler;
   
   - CategoryTest
   
@@ -106,7 +110,106 @@
 	- DomainException
   
 ## Implementando o category validator	 
-	 
+
+  - [domain] Entity.java
+    - public abstract void validate(ValidationHandler handler);
+	  - Notification -> acumula os erros
 	
+  - [domain] pacote com.fullcycle.admin.catalogo.domain.validation
+    - ValidationHandler.java -> interface fluente
+	- record Error.java
+
+  - [domain] Category.java - override do método validate
+    - Chamar o validador da categoria
 	
+```  
+	@Override
+    public void validate(final ValidationHandler handler) {
+        new CategoryValidator(this, handler).validate();
+    }  
+```
+
+  - [domain] com.fullcycle.admin.catalogo.domain.validation.handler.**ThrowsValidationHandler**.java
   
+    - Não é acumulativo
+	- Lançar uma exceção cada vez que receber um tipo de erro
+	  - throw DomainException nos append
+```	
+   @Override
+    public ValidationHandler append(final Error anError) {
+        throw DomainException.with(anError);
+    }
+
+    @Override
+    public ValidationHandler append(final ValidationHandler anHandler) {
+        throw DomainException.with(anHandler.getErrors());
+    }	
+```
+
+  - [domain] CategoryValidator.java -> checkNameConstraints()
+    - implementar as validações
+	
+  - [domain] CategoryTest -> usando o ThrowsValidationHandler
+
+```
+Assertions.assertThrows(DomainException.class, () -> 
+                  actualCategory.validate(new ThrowsValidationHandler()));  
+```
+
+## Refinando nossas exceptions
+
+  - RuntimeException tem essa assinatura:
+  
+```  
+    protected RuntimeException(String message, Throwable cause,
+                               boolean enableSuppression,
+                               boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }    
+```
+	
+  - **boolean enableSuppression** e **boolean writableStackTrace**: argumentos que impactam a performance da aplicação, não coloca stacktrace dentro da exception - em uma aplicação de alta performance é muito importante
+  
+  - Criar exception:
+    - **NoStacktraceException** extends RuntimeException  
+	
+```	
+  	// chamando o construtor super() que recebe os argumentos enableSuppression e writableStackTrace
+	public NoStacktraceException(final String message, final Throwable cause) {
+        super(message, cause, true, false);
+    }	
+	
+	// construtor que vai chamar o outro construtor
+ 	public NoStacktraceException(final String message) {
+        this(message, null);
+    }	
+```
+
+## Implementando demais validações com TDD
+
+  - [domain] CategoryTest
+  
+    - givenAnInvalidEmptyName_whenCallNewCategoryAndValidate_thenShouldReceiveError
+```
+final var actualException =
+                Assertions.assertThrows(DomainException.class, () -> actualCategory.validate(new ThrowsValidationHandler()));	
+```
+    - givenAnInvalidNameLengthLessThan3_whenCallNewCategoryAndValidate_thenShouldReceiveError
+
+```
+ final var actualException =
+                Assertions.assertThrows(DomainException.class, () -> actualCategory.validate(new ThrowsValidationHandler()));	
+```
+    - givenAnInvalidNameLengthMoreThan255_whenCallNewCategoryAndValidate_thenShouldReceiveError
+```
+final var actualException =
+                Assertions.assertThrows(DomainException.class, () -> actualCategory.validate(new ThrowsValidationHandler()));	
+```
+    - givenAValidEmptyDescription_whenCallNewCategoryAndValidate_thenShouldReceiveOK	
+```	
+Assertions.assertDoesNotThrow(() -> actualCategory.validate(new ThrowsValidationHandler()));	
+```
+    - givenAValidFalseIsActive_whenCallNewCategoryAndValidate_thenShouldReceiveOK
+```
+ Assertions.assertDoesNotThrow(() -> actualCategory.validate(new ThrowsValidationHandler()));
+```
