@@ -32,8 +32,8 @@
       - Value Objects -> medir, quantificar e descrever algo no domínio, não tem ID, somente atributos que descrevem o objeto, são imutáveis
 	  
       - Aggregates e entities
-	    - Aggregates são as entidades raiz do sistema, possuem repositório
-		- Entities possui um id, id é o que o identifica
+	    - **Aggregates** são as entidades raiz do sistema, possuem repositório
+		- **Entities** possui um id, id é o que o identifica
 		
       - Domain services -> serviços voltados para o domínio (regra de negócio)
 	    - não será utilizado
