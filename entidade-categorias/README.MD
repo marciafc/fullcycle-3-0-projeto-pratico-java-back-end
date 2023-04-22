@@ -189,27 +189,27 @@ Assertions.assertThrows(DomainException.class, () ->
 
   - [domain] CategoryTest
   
-    - givenAnInvalidEmptyName_whenCallNewCategoryAndValidate_thenShouldReceiveError
+   - givenAnInvalidEmptyName_whenCallNewCategoryAndValidate_thenShouldReceiveError
 ```
 final var actualException =
                 Assertions.assertThrows(DomainException.class, () -> actualCategory.validate(new ThrowsValidationHandler()));	
 ```
-    - givenAnInvalidNameLengthLessThan3_whenCallNewCategoryAndValidate_thenShouldReceiveError
+   - givenAnInvalidNameLengthLessThan3_whenCallNewCategoryAndValidate_thenShouldReceiveError
 
 ```
  final var actualException =
                 Assertions.assertThrows(DomainException.class, () -> actualCategory.validate(new ThrowsValidationHandler()));	
 ```
-    - givenAnInvalidNameLengthMoreThan255_whenCallNewCategoryAndValidate_thenShouldReceiveError
+   - givenAnInvalidNameLengthMoreThan255_whenCallNewCategoryAndValidate_thenShouldReceiveError
 ```
 final var actualException =
                 Assertions.assertThrows(DomainException.class, () -> actualCategory.validate(new ThrowsValidationHandler()));	
 ```
-    - givenAValidEmptyDescription_whenCallNewCategoryAndValidate_thenShouldReceiveOK	
+   - givenAValidEmptyDescription_whenCallNewCategoryAndValidate_thenShouldReceiveOK	
 ```	
 Assertions.assertDoesNotThrow(() -> actualCategory.validate(new ThrowsValidationHandler()));	
 ```
-    - givenAValidFalseIsActive_whenCallNewCategoryAndValidate_thenShouldReceiveOK
+   - givenAValidFalseIsActive_whenCallNewCategoryAndValidate_thenShouldReceiveOK
 ```
  Assertions.assertDoesNotThrow(() -> actualCategory.validate(new ThrowsValidationHandler()));
 ```
