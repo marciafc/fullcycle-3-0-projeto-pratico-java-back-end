@@ -61,3 +61,22 @@
 ## Entidade categorias
 
   - [Notas](entidade-categorias/README.MD)
+    - Pirâmide de testes: unit, integration e E2E
+	- Criação dos módulos (domain, application, infrastructure), settings.gradle
+	- Criar entidade Category com TDD
+	- Instant x LocalDateTime
+	- Factory method
+	- Usar final nos parâmetros para serem imutáveis
+	- DDD: ValueObject, Identifier, Entity, AggregateRoot
+	- Criação de classe de validação de negócio: CategoryValidator
+	  - ThrowsValidationHandler: não é acumulativo, lançar exceção cada vez que receber um tipo de erro
+	- Interface fluente
+	- Refinando as exceções
+	  - RuntimeException: enableSuppression, writableStackTrace
+	  - NoStacktraceException extends RuntimeException
+    - assertThrows x assertDoesNotThrow 
+	- isAfter
+	- Gateway
+	- record
+	
+	
