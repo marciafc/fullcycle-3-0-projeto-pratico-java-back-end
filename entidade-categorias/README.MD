@@ -213,3 +213,74 @@ Assertions.assertDoesNotThrow(() -> actualCategory.validate(new ThrowsValidation
 ```
  Assertions.assertDoesNotThrow(() -> actualCategory.validate(new ThrowsValidationHandler()));
 ```
+
+## Comportamento de ativar e inativar uma category
+
+  - [domain] CategoryTest
+  
+  - **DESATIVAR** givenAValidActiveCategory_whenCallDeactivate_thenReturnCategoryInactivated
+	
+	  - isAfter: será uma data futura
+	
+	    - Assertions.assertTrue(actualCategory.getUpdatedAt().**isAfter**(updatedAt))
+
+    - Como o deactivate() altera "updatedAt", salvar em uma variável antes
+
+```
+// ...
+final var createdAt = aCategory.getCreatedAt();
+final var updatedAt = aCategory.getUpdatedAt();
+
+// ...
+final var actualCategory = aCategory.deactivate();
+	
+// ...
+Assertions.assertEquals(createdAt, actualCategory.getCreatedAt());
+Assertions.assertTrue(actualCategory.getUpdatedAt().isAfter(updatedAt));
+Assertions.assertNotNull(actualCategory.getDeletedAt());
+```
+  - **ATIVAR** givenAValidInactiveCategory_whenCallActivate_thenReturnCategoryActivated
+  
+    - aCategory.activate()
+ 
+## Implementando update de uma category
+
+- [domain] CategoryTest
+  
+  - **ATUALIZAR** -> aCategory.update(expectedName, expectedDescription, expectedIsActive);
+  
+    - givenAValidCategory_whenCallUpdate_thenReturnCategoryUpdated
+	
+	- givenAValidCategory_whenCallUpdateToInactive_thenReturnCategoryUpdated
+	
+	- givenAValidCategory_whenCallUpdateWithInvalidParams_thenReturnCategoryUpdated
+	
+	  - Após o update() nao vai chamar/validar o validate() para não dar exceção -> name == null
+```
+final var actualCategory = aCategory.update(expectedName, expectedDescription, expectedIsActive);
+
+Assertions.assertEquals(aCategory.getId(), actualCategory.getId());
+Assertions.assertEquals(expectedName, actualCategory.getName());
+```
+
+## Criando a interface do Gateway de category
+
+  - [domain] com.fullcycle.admin.catalogo.domain.category.**CategoryGateway**.java
+  
+    - public interface CategoryGateway
+
+  - record -> dto imutável para passar informação de um lado para o outro
+  
+  - Paginaçao -> pacote **com.fullcycle.admin.catalogo.domain.pagination**
+  
+    - Pagination
+	
+	- SearchQuery
+	
+## Revisão do módulo
+
+  - TDD
+  
+  - DDD
+  
+  - Clean Architecture
