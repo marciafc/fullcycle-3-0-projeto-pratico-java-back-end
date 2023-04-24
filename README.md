@@ -60,7 +60,9 @@
 	  
 ## Entidade categorias
 
-  - [Notas](entidade-categorias/README.MD)
+  - [Notas](entidade-categorias/README.MD) -> Module **domain**
+  
+    - Package **com.fullcycle.admin.catalogo.domain.category**
     - Pirâmide de testes: unit, integration e E2E
 	- Criação dos módulos (domain, application, infrastructure), settings.gradle
 	- Criar entidade Category com TDD
@@ -79,4 +81,9 @@
 	- Gateway
 	- record
 	
-	
+## Usecases categoria
+
+  - [Notas](usecase-categoria/README.MD) -> Module **application**
+  
+    - Package **com.fullcycle.admin.catalogo.application.category**  
+    - 
