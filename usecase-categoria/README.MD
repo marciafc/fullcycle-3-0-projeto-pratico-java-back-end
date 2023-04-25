@@ -109,8 +109,45 @@ Mockito.verify(categoryGateway, times(1)).create(
 	
 ## Cobrindo com demais cenários de teste o caso de uso de criação de categoria
   
+  - CreateCategoryUseCaseTest.java
+```
+    // 2. Teste passando uma propriedade inválida (name)
+	givenAInvalidName_whenCallsCreateCategory_thenShouldReturnDomainException	
+	
 ```  
-// 2. Teste passando uma propriedade inválida (name) 
-// 3. Teste criando uma categoria inativa
-// 4. Teste simulando um erro generico vindo do gateway  
+  - Mock não usar no método
+  
+    - Não: Mockito.mock(CategoryGateway.class) OU new DefaultCreateCategoryUseCase
+	
+	- Sim: como abaixo
+	
+```
+// O Mockito vai instanciar -> mais sintax sugar os testes
+@ExtendWith(MockitoExtension.class)
+public class CreateCategoryUseCaseTest {
+
+    @InjectMocks
+    private DefaultCreateCategoryUseCase useCase;
+
+    @Mock
+    private CategoryGateway categoryGateway;
+
+}
+```
+
+  - Verifica se não chamou **nenhuma vez**, passar any() -> não terá verificação
+    - Mockito.verify(categoryGateway, times(0)).create(any());
+
+  - CreateCategoryUseCaseTest.java
+```
+    // 3. Teste criando uma categoria inativa
+	givenAValidCommandWithInactiveCategory_whenCallsCreateCategory_shouldReturnInactiveCategoryId	
+	
+```  
+
+  - CreateCategoryUseCaseTest.java
+```
+    // 4. Teste simulando um erro generico vindo do gateway
+	givenAValidCommand_whenGatewayThrowsRandomException_shouldReturnAException	
+	
 ```
